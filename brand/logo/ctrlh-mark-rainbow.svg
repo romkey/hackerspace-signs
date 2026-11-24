@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="237 392 474 325" role="img" aria-label="CTRL-H">
+  <defs><linearGradient id="hgrad" gradientUnits="userSpaceOnUse" x1="0" y1="396" x2="0" y2="713"><stop offset="0.000" stop-color="#E2382D"/><stop offset="0.200" stop-color="#F28A0F"/><stop offset="0.400" stop-color="#F7CB2D"/><stop offset="0.600" stop-color="#6DB33F"/><stop offset="0.800" stop-color="#119FD6"/><stop offset="1.000" stop-color="#7468C2"/></linearGradient></defs>
+  <polygon points="326,392 352,407 352,437 326,452 300,437 300,407" fill="#F7CB2D"/>
+  <polygon points="385,392 411,407 411,437 385,452 359,437 359,407" fill="#E2382D"/>
+  <polygon points="267,458 293,473 293,503 267,518 241,503 241,473" fill="#119FD6"/>
+  <polygon points="385,458 411,473 411,503 385,518 359,503 359,473" fill="#F28A0F"/>
+  <polygon points="385,525 411,540 411,570 385,585 359,570 359,540" fill="#7468C2"/>
+  <polygon points="481,411 507,396 533,411 533,529 655,529 655,411 681,396 707,411 707,698 681,713 655,698 655,595 533,595 533,698 507,713 481,698" fill="url(#hgrad)"/>
+</svg>

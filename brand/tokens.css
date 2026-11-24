@@ -1,0 +1,51 @@
+/*
+ * PDX Hackerspace (CTRL-H) design tokens.
+ * Source of truth for colour, type and spacing. DESIGN.md explains the rules;
+ * tools/build_brand.py mirrors the palette for generated SVGs.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&family=Silkscreen&family=Space+Grotesk:wght@500;700&display=swap");
+
+:root {
+  /* Core */
+  --hs-ink: #16181D;      /* text, outlines, dark header bands */
+  --hs-paper: #FBF8F1;    /* default sign background (warm white) */
+  --hs-night: #1F5A85;    /* the Nyan mural sky; dark alternate background */
+  --hs-steel: #A9B4B6;    /* brushed-metal grey; rules, leads, muted UI */
+  --hs-birch: #D8B88A;    /* plywood; for wood-look mockups only */
+  --hs-muted: #5B616B;    /* secondary text on paper */
+
+  /* The rainbow (sampled from the mural, tuned for print) */
+  --hs-red: #E2382D;
+  --hs-orange: #F28A0F;
+  --hs-yellow: #F7CB2D;
+  --hs-green: #6DB33F;
+  --hs-blue: #119FD6;
+  --hs-violet: #7468C2;
+  --hs-rainbow: linear-gradient(90deg, var(--hs-red), var(--hs-orange), var(--hs-yellow),
+                                       var(--hs-green), var(--hs-blue), var(--hs-violet));
+
+  /* Meaning (single colours only ever carry meaning, see DESIGN.md §3) */
+  --hs-ok: var(--hs-green);       /* allowed, yes, goes here */
+  --hs-ask: var(--hs-orange);     /* ask first, conditional */
+  --hs-no: var(--hs-red);         /* forbidden, never, danger */
+  --hs-info: var(--hs-blue);      /* neutral info */
+
+  /* Sign family accents (DESIGN.md §4) */
+  --hs-family-safety: var(--hs-red);
+  --hs-family-tools: var(--hs-orange);
+  --hs-family-house: var(--hs-yellow);
+  --hs-family-green: var(--hs-green);
+  --hs-family-wayfinding: var(--hs-blue);
+  --hs-family-community: var(--hs-violet);
+
+  /* Type */
+  --hs-font-display: "Space Grotesk", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --hs-font-body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Verdana", sans-serif;
+  --hs-font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --hs-font-pixel: "Silkscreen", "Courier New", monospace; /* whimsy labels only */
+
+  /* Spacing: 1 unit = 0.125in on letter paper */
+  --hs-u: 0.125in;
+  --hs-margin: 0.5in;     /* printer-safe outer margin */
+  --hs-radius: 0;         /* corners are square or hexagonal, never rounded */
+}
