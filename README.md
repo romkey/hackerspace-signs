@@ -43,4 +43,5 @@ If you use Claude Code here, it follows `DESIGN.md` automatically. Ask for
 |---|---|---|
 | Kitchen door, inside: PUSH | house | [`signs/kitchen-door/inside-push.pdf`](signs/kitchen-door/inside-push.pdf) |
 | Kitchen door, outside: PULL | house | [`signs/kitchen-door/outside-pull.pdf`](signs/kitchen-door/outside-pull.pdf) |
+| All door signs, one per page | house | [`signs/kitchen-door/all-door-signs.pdf`](signs/kitchen-door/all-door-signs.pdf) (rebuild with `pdfunite signs/kitchen-door/inside-push.pdf signs/kitchen-door/outside-pull.pdf signs/kitchen-door/all-door-signs.pdf`) |
 | Table IDs (1-1 Ninja … 2-3-3 Alien), all in one PDF | wayfinding | [`signs/tables/all-tables.pdf`](signs/tables/all-tables.pdf) (one page per table; single files `table-<coord>.pdf`) |
