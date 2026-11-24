@@ -142,3 +142,20 @@ ul.led-list li img { height: 0.7in; flex: none; margin-top: -0.1in; }
 .safety-header.warning { background: var(--hs-orange); color: var(--hs-ink); }
 .safety-header.caution { background: var(--hs-yellow); color: var(--hs-ink); }
 .safety-header.notice  { background: var(--hs-blue);   color: #fff; font-style: italic; }
+
+/* ---- Table ID (signs/tables): coordinate, symbol, name, resistor code ---- */
+.table-id { align-items: center; text-align: center; justify-content: space-between; }
+.table-coord {
+  font-family: var(--hs-font-display); font-weight: 700;
+  font-size: 160pt; line-height: 0.9; letter-spacing: 0.02em; margin: 0;
+}
+.table-symbol { height: 2.9in; image-rendering: pixelated; }
+.table-name {
+  font-family: var(--hs-font-display); font-weight: 700;
+  font-size: 96pt; line-height: 1; margin: 0;
+}
+.resistor-code {
+  display: flex; align-items: center; gap: 0.2in;
+  font-family: var(--hs-font-mono); font-size: 14pt; color: var(--hs-muted);
+}
+.resistor-code img { height: 0.5in; }

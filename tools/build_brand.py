@@ -199,6 +199,9 @@ SPRITE_COLORS = {
     "S": STEEL, "s": "#D9E0E1",                                 # saucer metal
     "Y": RAINBOW["yellow"], "R": RAINBOW["red"], "O": RAINBOW["orange"],
     "C": RAINBOW["blue"], "V": RAINBOW["violet"], "N": RAINBOW["green"],
+    "o": "#FBE3B8",                                             # kitty cream
+    "D": NIGHT,                                                 # ninja suit
+    "L": "#EFE3CC",                                             # llama wool
 }
 
 SASQUATCH = """
@@ -301,10 +304,139 @@ KYYYYYYYYK
 """
 
 
+# ---- Table symbols (signs/tables) ----
+# Orange tabby on purpose: a grey cat would read as the Nyan mural's cat.
+KITTY = """
+.K............K.
+.KK..........KK.
+.KOK........KOK.
+.KOpKKKKKKKKpOK.
+.KOOOOKOKOOOOOK.
+KOOOOOOOOOOOOOOK
+KOOKKOOOOOOKKOOK
+KOOKWOOOOOOKWOOK
+KoOOOOOppOOOOOoK
+KooOOOKOOKOOOooK
+.KOOOOOKKOOOOOK.
+..KKOOOOOOOOKK..
+...KOOoooooOOK..
+..KOOooooooOOOK.
+..KOOooooooOOOK.
+..KOOKooooKOOOKK
+..KKKKKKKKKKKKK.
+"""
+
+NINJA = """
+.....KKKKKK.....
+....KDDDDDDK....
+...KDDDDDDDDK...
+...KRRRRRRRRKRR.
+...KbbbbbbbbK.RR
+...KbKKbbKKbK...
+...KDDDDDDDDK...
+....KDDDDDDK....
+...KKDDDDDDKK...
+..KDDDDDDDDDDK..
+.KDDKDDDDDDKDDK.
+.KDDKRRRRRRKDDK.
+.KbbKDDDDDDKbbK.
+..KKKDDKKDDKKK..
+....KDDKKDDK....
+....KDDKKDDK....
+...KKKKK.KKKKK..
+"""
+
+DOGGIE = """
+....KKKKKKKK....
+...KbbbbbbbbK...
+.KKbbbbbbbbbbKK.
+KBBKbbbbbbbbKBBK
+KBBKbKKbbKKbKBBK
+KBBKbKWbbKWbKBBK
+KBBKbbbbbbbbKBBK
+.KBKbbbKKbbbKBK.
+..KKbbbKKbbbKK..
+...KbbKbbKbbK...
+...KbbbRRbbbK...
+....KKKRRKKK....
+...KCCCYCCCCK...
+..KBBBBBBBBBBK..
+..KBbbBBBBbbBK..
+..KbbKBBBBKbbK..
+..KKKK.KK.KKKK..
+"""
+
+PIRATE = """
+......KKKK......
+....KKKWWKKK....
+..KKKKWKKWKKKK..
+.KKKKKKWWKKKKKK.
+KYYYYYYYYYYYYYYK
+.KbbbbbbbbbbbbK.
+.KbKKKbbbbbKKbK.
+.KKKKKbbbbbKWbK.
+.KbKKKbbbbbbbbK.
+.KbbbbbbKbbbbbK.
+.KBBbbbbbbbbBBK.
+.KBBBKKKKKKBBBK.
+..KBBBBBBBBBBK..
+...KKBBBBBBKK...
+..KRWRWRWRWRWK..
+.KRWRWRWRWRWRWK.
+.KKKKKKKKKKKKKK.
+"""
+
+ROBOT = """
+.......RR.......
+.......KK.......
+...KKKKKKKKKK...
+...KSSSSSSSSK...
+..KKSCCSSCCSKK..
+..KSSCCSSCCSSK..
+...KSSSSSSSSK...
+...KSYKYKYKSK...
+...KKKKKKKKKK...
+.....KSSSSK.....
+..KKKKKKKKKKKK..
+.KSKSSSSSSSSKSK.
+.KSKSSRNCSSSKSK.
+.KSKSSSSSSSSKSK.
+.KKKKKKKKKKKKKK.
+....KSSKKSSK....
+...KKKKK.KKKKK..
+"""
+
+LLAMA = """
+...K.K..........
+...KLKLK........
+..KLLLLLK.......
+.KLKLLLLK.......
+KLLLLLLLK.......
+KKLLLLLLK.......
+.KKKLLLLK.......
+....KLLLK.......
+....KRYCK.......
+....KLLLK.......
+....KLLLKKKKKKK.
+....KLLLLLLLLLLK
+...KLLRRYYNNCCLK
+...KLLLLLLLLLLK.
+...KLLLLLLLLLLK.
+....KLKLK.KLKLK.
+....KLKLK.KLKLK.
+....KKKKK.KKKKK.
+"""
+
+TABLE_SPRITES = {"kitty": KITTY, "ninja": NINJA, "doggie": DOGGIE, "pirate": PIRATE,
+                 "robot": ROBOT, "llama": LLAMA}
+
+
 def sprite_svg(art, scale=10, colors=None):
     colors = colors or SPRITE_COLORS
     rows = [r for r in art.strip("\n").split("\n")]
     w, h = max(len(r) for r in rows), len(rows)
+    bad = [i for i, r in enumerate(rows) if len(r) != w]
+    assert not bad, f"sprite rows {bad} are not {w} pixels wide"
     rects = []
     for y, row in enumerate(rows):
         x = 0
@@ -332,6 +464,8 @@ def build_sprites():
     white = dict(SPRITE_COLORS, K="#FFFFFF")
     write("brand/illustrations/sparkle-white.svg", sprite_svg(SPARKLE, colors=white))
     write("brand/illustrations/hex-pixel.svg", sprite_svg(HEX_PIXEL))
+    for name, art in TABLE_SPRITES.items():
+        write(f"brand/illustrations/{name}.svg", sprite_svg(art))
 
 
 # ---- Electronics icons (vector, not pixel) -----------------------------------
