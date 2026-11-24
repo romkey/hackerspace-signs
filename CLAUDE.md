@@ -11,5 +11,5 @@ brand asset. For a new sign, use the `make-sign` skill (`.claude/skills/make-sig
   Check for overflow, overlap (the critter must never cover text) and text running off the page.
 - Never hand-edit generated SVGs in `brand/logo`, `brand/illustrations` or `brand/patterns`.
   Edit `tools/build_brand.py` and run `python3 tools/build_brand.py`.
-- Don't draw Nyan Cat on signs. Use the rainbow trail and sparkles (DESIGN.md §7).
+- Nyan Cat is ours to use (we have permission). Treat it as a critter, by DESIGN.md §7.
 - Add every new sign to the table in README.md.

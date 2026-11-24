@@ -305,7 +305,6 @@ KYYYYYYYYK
 
 
 # ---- Table symbols (signs/tables) ----
-# Orange tabby on purpose: a grey cat would read as the Nyan mural's cat.
 KITTY = """
 .K............K.
 .KK..........KK.
