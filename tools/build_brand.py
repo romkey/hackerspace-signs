@@ -203,6 +203,7 @@ SPRITE_COLORS = {
     "D": NIGHT,                                                 # ninja suit
     "L": "#EFE3CC",                                             # llama wool
     "q": "#DDF2FA",                                             # helmet glass
+    "H": "#8A3B1F",                                             # pirate hair (auburn)
 }
 
 SASQUATCH = """
@@ -400,17 +401,17 @@ PIRATE = """
 ..KKKKWKKWKKKK..
 .KKKKKKWWKKKKKK.
 KYYYYYYYYYYYYYYK
-.KbbbbbbbbbbbbK.
-.KbKKKbbbbbKKbK.
-.KKKKKbbbbbKWbK.
-.KbKKKbbbbbbbbK.
-.KbbbbbbKbbbbbK.
-.KBBbbbbbbbbBBK.
-.KBBBKKKKKKBBBK.
-..KBBBBBBBBBBK..
-...KKBBBBBBKK...
-..KRWRWRWRWRWK..
-.KRWRWRWRWRWRWK.
+KHHHHHbbbbbbbHHK
+KHbKKKbbbbbKKbHK
+KHKKKKbbbbbKWbHK
+KHbKKKbbbbbbbbHK
+KHbbbbbbKbbbbbHK
+KHbpbbbbbbbbpbYK
+KHHbbKbbbbKbbHHK
+KHHKbbKKKKbbKHHK
+KHHHKKbbbbKKHHHK
+KHHKRWRWRWRWKHHK
+.KKRWRWRWRWRWKK.
 .KKKKKKKKKKKKKK.
 """
 
