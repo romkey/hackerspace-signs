@@ -159,3 +159,77 @@ ul.led-list li img { height: 0.7in; flex: none; margin-top: -0.1in; }
   font-family: var(--hs-font-mono); font-size: 14pt; color: var(--hs-muted);
 }
 .resistor-code img { height: 0.5in; }
+
+/* ---- Bin labels (signs/bins): landscape sort card ----
+ * Two side-by-side sort lists under a title, plus a bin-colour chip so the
+ * label matches the bin it is taped to. See DESIGN.md §6. */
+/* Landscape has 2.5in less height: tighten the chrome to buy it back. */
+.sign.landscape .sign-header { padding: 0.2in var(--hs-margin) 0.2in; }
+.sign.landscape .sign-header .mark { height: 0.6in; }
+/* A bin label is read across a room: the category and the bin colour are the
+ * two things that must land first, so they outrank the title here. */
+.sign.landscape .sign-header .kicker { font-size: 32pt; letter-spacing: 0.1em; }
+.sign.landscape .sign-header .kicker small { font-size: 14pt; }
+.sign.landscape .sign-header .accent-hex { width: 0.42in; height: 0.49in; }
+.sign.landscape .trail { height: 0.3in; }
+.sign.landscape .sign-footer { height: 0.55in; }
+.sign.landscape .title { font-size: 54pt; }
+.sign.landscape .sign-body { padding: 0.18in var(--hs-margin) 0.14in; }
+
+.bin-head .title { margin-bottom: 0.08in; }
+.bin-head .accent-rule { margin: 0; }
+
+/* Bin badge: replaces the family accent hexagon in the header band with a
+ * hexagon in the bin's OWN colour plus its name in words, so the label matches
+ * the bin it is taped to (DESIGN.md §3: colour never signals alone). --bin is
+ * set per sign from a token, never a raw hex. */
+.sign-header .bin-badge {
+  margin-left: auto; flex: none;
+  display: flex; align-items: center; gap: 0.18in;
+}
+.bin-badge .swatch {
+  width: 0.76in; height: 0.88in; flex: none;
+  background: var(--bin, var(--hs-steel));
+  border: 0.03in solid var(--hs-paper);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.bin-badge .bin-name {
+  font-family: var(--hs-font-display); font-weight: 700; font-size: 27pt;
+  letter-spacing: 0.08em; text-transform: uppercase; margin: 0;
+}
+
+/* The two sort lists. Headings pair an LED with YES / NO in words. */
+.sort-cols { display: flex; gap: 0.35in; margin: 0.12in 0 0; }
+.sort-col { flex: 1; min-width: 0; }
+.sort-head {
+  display: flex; align-items: center; gap: 0.15in;
+  font-family: var(--hs-font-display); font-weight: 700; font-size: 24pt;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  border-bottom: 0.04in solid var(--hs-ink); padding-bottom: 0.1in;
+}
+.sort-head img { height: 0.42in; flex: none; }
+.sort-col ul.hex-list { margin-top: 0.14in; }
+.sort-col ul.hex-list li { padding-left: 0.4in; margin-bottom: 0.07in; line-height: 1.12; }
+.sort-col ul.hex-list li::before { width: 0.22in; height: 0.254in; top: 0.18em; }
+.sort-col.no ul.hex-list li::before { background: var(--hs-no); }
+
+/* One muted clarifier under both lists. */
+.sort-note {
+  font-size: 14.5pt; color: var(--hs-muted); margin: 0.09in 0 0; line-height: 1.18;
+}
+
+/* Collection note: smaller than .check, sits beside the critter. */
+.note {
+  display: flex; align-items: center; gap: 0.2in;
+  border: 0.06in solid var(--hs-ink); padding: 0.12in 0.2in;
+  font-family: var(--hs-font-display); font-weight: 700; font-size: 20pt; line-height: 1.12;
+  margin-top: 0.1in;
+}
+.note img { height: 0.5in; flex: none; }
+.note span { flex: 1; }
+.note small {
+  display: block; font-family: var(--hs-font-body); font-weight: 400;
+  font-size: 15pt; color: var(--hs-muted); margin-top: 0.04in;
+}
+.sign.landscape .critter img { height: 1in; }
+.sign.landscape .bubble { font-size: 13pt; padding: 0.06in 0.1in; }
