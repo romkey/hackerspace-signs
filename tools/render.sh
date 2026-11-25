@@ -3,14 +3,18 @@
 #   tools/render.sh signs/kitchen-door/*.html
 # Output goes next to each source file. Needs Google Chrome; fonts load from Google Fonts.
 CHROME="${CHROME:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
+# How long to let webfonts and layout settle, in ms. CI raises this.
+BUDGET="${BUDGET:-5000}"
 for f in "$@"; do
   abs="$(cd "$(dirname "$f")" && pwd)/$(basename "$f")"
   base="${abs%.html}"
-  "$CHROME" --headless=new --disable-gpu --no-pdf-header-footer --virtual-time-budget=5000 \
+  "$CHROME" --headless=new --disable-gpu --no-pdf-header-footer --virtual-time-budget="$BUDGET" \
     --print-to-pdf="$base.pdf" "file://$abs" 2>/dev/null
-  # 8.5x11in at 96px/in; landscape signs get cropped, use the PDF for those
-  "$CHROME" --headless=new --disable-gpu --hide-scrollbars --virtual-time-budget=5000 \
-    --window-size=816,1056 --default-background-color=00000000 \
+  # Letter at 96px/in. Landscape signs (class="sign landscape") get 11x8.5.
+  size=816,1056
+  grep -q 'class="sign landscape"' "$abs" && size=1056,816
+  "$CHROME" --headless=new --disable-gpu --hide-scrollbars --virtual-time-budget="$BUDGET" \
+    --window-size="$size" --default-background-color=00000000 \
     --screenshot="$base.png" "file://$abs" 2>/dev/null
   echo "rendered $base.pdf $base.png"
 done

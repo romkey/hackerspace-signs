@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Signs and brand
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Lint sign structure (DESIGN.md rules)
+        run: python3 tools/lint_signs.py
+
+      - name: Brand SVGs match tools/build_brand.py
+        run: |
+          python3 tools/build_brand.py
+          if ! git diff --exit-code -- brand || [ -n "$(git status --porcelain -- brand)" ]; then
+            echo "::error::brand/ does not match tools/build_brand.py. Generated SVGs are never hand-edited. Change tools/build_brand.py and run 'python3 tools/build_brand.py'."
+            exit 1
+          fi
+
+      - name: Generated sign HTML matches its generator
+        run: |
+          python3 signs/bins/build_bins.py
+          python3 signs/tables/build_tables.py
+          if ! git diff --exit-code -- signs || [ -n "$(git status --porcelain -- signs)" ]; then
+            echo "::error::Generated sign HTML does not match its build script. Edit the .py (signs/bins/build_bins.py, signs/tables/build_tables.py) and rerun it, not the HTML."
+            exit 1
+          fi
+
+  render:
+    name: Render and check printables
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pypdf and pdfunite
+        run: |
+          python3 -m pip install --quiet pypdf
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+
+      - name: Find a browser
+        run: |
+          for c in google-chrome google-chrome-stable chromium chromium-browser; do
+            if command -v "$c" >/dev/null 2>&1; then
+              echo "CHROME=$(command -v "$c")" >> "$GITHUB_ENV"
+              "$c" --version
+              exit 0
+            fi
+          done
+          sudo apt-get install -y -qq chromium-browser
+          echo "CHROME=$(command -v chromium-browser)" >> "$GITHUB_ENV"
+
+      - name: Render every sign from scratch
+        env:
+          # Fonts come from Google Fonts over the network, so give them room.
+          BUDGET: 20000
+        run: |
+          # Drop the committed printables so a failed render cannot pass by
+          # leaving a stale PDF in place.
+          find signs \( -name '*.pdf' -o -name '*.png' \) -delete
+          tools/render.sh signs/*/*.html
+          # The combined door sheet has no HTML of its own (README documents this).
+          pdfunite signs/kitchen-door/inside-push.pdf \
+                   signs/kitchen-door/outside-pull.pdf \
+                   signs/kitchen-door/all-door-signs.pdf
+
+      - name: Check page count, paper size and orientation
+        run: python3 tools/check_pdfs.py
+
+      - name: Upload printables
+        uses: actions/upload-artifact@v4
+        with:
+          name: signs-printables
+          path: |
+            signs/**/*.pdf
+            signs/**/*.png
+          if-no-files-found: error

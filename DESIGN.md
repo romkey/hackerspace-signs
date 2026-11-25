@@ -137,8 +137,25 @@ Every sign uses the same skeleton (`templates/sign.css`):
 - **Page:** US Letter, portrait unless the content wants landscape. 0.5 in printer-safe margin.
 - **Spacing unit:** ⅛ in (`--hs-u`). Use multiples.
 - **The critter gets its own column** (`.row-end`) or its own empty corner. It never overlaps text and never sits behind it.
-- **Footer** carries the mark, the name, and a sign id (`family / name`) so anyone can find the source file in this repo.
-- Small labels (table tents, bin labels, machine tags) keep the header colour band and the trail, and drop the footer.
+- **Footer** carries the mark, the name, and a sign id (`family / name`) so anyone can find
+  the source file in this repo. Where the family name also means something else *on that
+  sign*, use `topic / name` instead. The bin labels read `bins / glass-yellow`, not
+  `green / bins-glass`, because "green" there would be the family, a bin and an LED at once.
+  The family is still set with `data-family`; it just isn't the thing printed.
+- Small labels (table tents, machine tags) keep the header colour band and the trail, and drop the footer.
+
+**Landscape sort cards** (`signs/bins`, `.sign.landscape`) are the bin-label variant: title and
+accent rule across the top, then two side-by-side lists (`.sort-col.yes` with a green LED and
+the word YES, `.sort-col.no` with a red LED and the word NO), a muted `.sort-note` clarifier
+under both, and a `.note` box plus the critter on the last row. Landscape loses 2.5 in of
+height, so `.sign.landscape` tightens the header, trail and footer; keep bullets to one line
+each and at most five per column or the footer falls off the page.
+
+On a label stuck to a physical thing that already has a colour (a bin), the header's
+`.accent-hex` is replaced by a `.bin-badge`: a hexagon in *that object's* colour next to its
+name in words (GRAY BIN, BLUE BIN). The colour is set per sign as `--bin: var(--hs-…)`, never
+a raw hex, and never travels without the words. The family accent still owns the rule and the
+bullets.
 
 ---
 
@@ -192,6 +209,61 @@ PDX Hackerspace has permission to use Nyan Cat, so the cat is part of the kit, n
 - Address the reader as "you". No "please do not…" walls of text. No ALL CAPS sentences.
 - Name a person or channel for questions: "Questions? `#laser` on Slack".
 
+### 8.1 No AI tells
+
+Every sign has to read like a member wrote it on the way past the machine. Generated text
+has a smell, and once a reader catches it they stop believing the sign. Every rule below
+applies to sign copy. The dash, emoji and word rules apply to this repo's own prose too
+(`DESIGN.md`, `README.md`, build-script docstrings), because that is where the next sign
+gets its wording.
+
+**Punctuation**
+
+- **No em dashes.** Not the character (—), not `&mdash;`, not ` -- `. Use a full stop, a comma,
+  a colon, or two sentences. "Food scraps only, not yard debris." not "Food scraps only &mdash; not yard debris."
+- **No en dash as a dash either.** The en dash is only for a span of numbers: `200–220 °C`,
+  `3–6 ft`, `1–5 words`.
+- **No semicolons.** A sign is not a legal brief. Split the sentence.
+- **No colon-dash labels** like `Note:`, `Remember:`, `Pro tip:`, `Important:`. The `.note` box,
+  the amber LED and the accent rule already do that job. A label that is itself the instruction
+  or a real attribution (`Bag first:`, `City rule:`) is fine.
+- **No trailing ellipsis** at the end of a sentence, and no `(s)` plurals.
+- Arrows (→) are for sequences in a diagram, never inside a sentence.
+- **No emoji, anywhere.** We have pixel critters, LEDs and hexagons. Dingbats
+  (➜ ✦ ✨ 🚀 ✅) count as emoji.
+
+**Sentence shapes to avoid**
+
+- "It's not just X, it's Y." Also "not only … but also", and "X isn't about Y, it's about Z."
+- Negated-parallel emphasis: "This isn't a suggestion, it's a rule." Just state the rule.
+- Rule-of-three for rhythm: "fast, simple and reliable". Three words are fine when all three
+  carry information ("Empty, dry, loose"), wrong when the third is padding.
+- "From X to Y" framing, and "Think of it as …".
+- Rhetorical questions as openers: "Ever wondered why the door won't latch?"
+- Closing flourishes: "Happy hacking!", "Thanks for keeping the space awesome", "We appreciate
+  your cooperation", "Thank you for your understanding".
+
+**Words we don't print**
+
+simply, just (as a softener), seamless, effortless, robust, leverage, utilize, ensure, delve,
+foster, elevate, unlock, streamline, crucial, vital, essential, best practices, journey,
+game-changer, at the end of the day, kindly.
+
+Say the thing instead: "Make sure it's latched" beats "ensure proper latching".
+
+**Emphasis and hedging**
+
+- **One bold phrase per block at most.** Bolding three things in a row bolds nothing.
+- No hedging on an instruction. "Generally, batteries shouldn't go in here" is not a rule.
+  "No batteries" is.
+- Sentence case for headings and bullets. Title Case On A Headline reads as generated.
+
+`tools/lint_signs.py` checks the mechanical rules above (dashes, semicolons, emoji, `(s)`
+plurals, colon labels, the word list) on every sign in CI. The rest is a human job.
+
+**The read-aloud test.** Say the sign out loud. If it sounds like a helpful assistant rather
+than the person who fixed the door closer last week, cut it and write it again shorter.
+
 ---
 
 ## 9. Making signs in different materials
@@ -215,6 +287,7 @@ The same design has to survive the laser, the CNC, the embroidery machine and th
 - [ ] One critter at most, not covering anything.
 - [ ] Single colours carry meaning *and* are paired with words or icons.
 - [ ] Body text ≥ 24 pt, Atkinson Hyperlegible.
+- [ ] No em dashes, no emoji, no AI tells (§8.1). Read it aloud.
 - [ ] Footer has the sign id.
 - [ ] Safety signs: no jokes in the text, ANSI-style header (`.safety-header.danger|warning|caution|notice`).
 - [ ] Rendered with `tools/render.sh` and checked the PNG.
