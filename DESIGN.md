@@ -217,6 +217,8 @@ applies to sign copy. The dash, emoji and word rules apply to this repo's own pr
 (`DESIGN.md`, `README.md`, build-script docstrings), because that is where the next sign
 gets its wording.
 
+<!-- house-style: ignore start -->
+
 **Punctuation**
 
 - **No em dashes.** Not the character (—), not `&mdash;`, not ` -- `. Use a full stop, a comma,
@@ -232,6 +234,8 @@ gets its wording.
 - **No emoji, anywhere.** We have pixel critters, LEDs and hexagons. Dingbats
   (➜ ✦ ✨ 🚀 ✅) count as emoji.
 
+<!-- house-style: ignore end -->
+
 **Sentence shapes to avoid**
 
 - "It's not just X, it's Y." Also "not only … but also", and "X isn't about Y, it's about Z."
@@ -243,6 +247,8 @@ gets its wording.
 - Closing flourishes: "Happy hacking!", "Thanks for keeping the space awesome", "We appreciate
   your cooperation", "Thank you for your understanding".
 
+<!-- house-style: ignore start -->
+
 **Words we don't print**
 
 simply, just (as a softener), seamless, effortless, robust, leverage, utilize, ensure, delve,
@@ -250,6 +256,8 @@ foster, elevate, unlock, streamline, crucial, vital, essential, best practices, 
 game-changer, at the end of the day, kindly.
 
 Say the thing instead: "Make sure it's latched" beats "ensure proper latching".
+
+<!-- house-style: ignore end -->
 
 **Emphasis and hedging**
 
@@ -259,7 +267,10 @@ Say the thing instead: "Make sure it's latched" beats "ensure proper latching".
 - Sentence case for headings and bullets. Title Case On A Headline reads as generated.
 
 `tools/lint_signs.py` checks the mechanical rules above (dashes, semicolons, emoji, `(s)`
-plurals, colon labels, the word list) on every sign in CI. The rest is a human job.
+plurals, colon labels, the word list) on every sign in CI, and `tools/lint_docs.py` checks
+the dash, emoji and word rules on this repo's prose. The rest is a human job. The two lists
+of rules in this section are wrapped in a `<!-- house-style: ignore start -->` marker,
+because a rule has to be able to name what it bans.
 
 **The read-aloud test.** Say the sign out loud. If it sounds like a helpful assistant rather
 than the person who fixed the door closer last week, cut it and write it again shorter.

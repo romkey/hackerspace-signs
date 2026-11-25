@@ -26,7 +26,7 @@ paper → one pixel critter in its own corner → footer with the sign id.
 | [`brand/reference/`](brand/reference) | The badge as built: LED, metal, patch, plywood |
 | [`templates/`](templates) | `sign.css` layout and `sign-template.html` starter |
 | [`signs/`](signs) | Finished signs, one folder per topic (HTML source + PDF + PNG) |
-| [`tools/`](tools) | `build_brand.py` regenerates brand SVGs, `render.sh` makes PDF/PNG, `lint_signs.py` and `check_pdfs.py` are the checks CI runs |
+| [`tools/`](tools) | `build_brand.py` regenerates brand SVGs, `render.sh` makes PDF/PNG, `lint_signs.py`, `lint_docs.py` and `check_pdfs.py` are the checks CI runs |
 
 ## Make a sign
 
@@ -51,7 +51,8 @@ that are easy to miss.
 | Check | What it catches |
 |---|---|
 | `python3 tools/lint_signs.py` | A sign that skips `tokens.css`/`sign.css`, has no family or an invented one, hard-codes a hex colour, points at art that isn't there, still carries template placeholder text, has no rendered PDF/PNG beside it, or is missing from the table below |
-| the same lint, on the copy | The mechanical [no-AI-tells](DESIGN.md) rules: em dashes, semicolons, emoji, `(s)` plurals, `Note:` labels, and the words we don't print |
+| the same lint, on the copy | The mechanical [no-AI-tells](DESIGN.md) rules on sign copy: em dashes, semicolons, emoji, `(s)` plurals, `Note:` labels, and the words we don't print |
+| `python3 tools/lint_docs.py` | The dash, emoji and word rules on the repo's own writing (Markdown here and under `.claude/skills`, plus build-script docstrings), which is where the next sign gets its wording |
 | `python3 tools/build_brand.py` + `git diff` | A hand-edited SVG in `brand/`. Those are generated, so edit `build_brand.py` instead |
 | `build_bins.py` / `build_tables.py` + `git diff` | Sign HTML edited by hand when a build script owns it |
 | `python3 tools/check_pdfs.py` | A sign that spills onto a second page (overflow), wrong paper size, wrong orientation. Needs `pypdf` |
@@ -63,8 +64,20 @@ PDFs and PNGs to the run, so the current printables can be downloaded without a 
 Run the lot locally:
 
 ```bash
-python3 tools/lint_signs.py && python3 tools/check_pdfs.py
+python3 tools/lint_signs.py && python3 tools/lint_docs.py && python3 tools/check_pdfs.py
 ```
+
+Both lints share their rule tables ([`tools/house_style.py`](tools/house_style.py)). A doc
+that has to quote what it bans, the way DESIGN.md §8.1 does, wraps that part in a marker:
+
+```markdown
+<!-- house-style: ignore start -->
+... text that may break the rules ...
+<!-- house-style: ignore end -->
+```
+
+A single line can end with `<!-- house-style: ignore -->` instead. Code blocks, inline code,
+link targets and URLs are skipped already, so a shell command or a `--hs-*` token is safe.
 
 ## License
 

@@ -16,6 +16,9 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import house_style as hs  # noqa: E402
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FAMILIES = {"safety", "tools", "house", "green", "wayfinding", "community"}
 # Phrases that ship in templates/sign-template.html and must be replaced.
@@ -25,26 +28,6 @@ PLACEHOLDERS = [
     "First thing to do", "The key confirming action.",
 ]
 HEX = re.compile(r"#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?\b")
-# DESIGN.md 8.1, "No AI tells". Only the mechanical rules are checked here: the
-# read-aloud test is still a human job.
-TELLS = [
-    (re.compile(r"\u2014|&mdash;|(?<= )--(?= )"), "an em dash (use a full stop, comma or colon)"),
-    (re.compile(r"(?<!\d)\s?\u2013\s?(?!\d)"), "an en dash used as a dash (it is only for number spans)"),
-    (re.compile(r";"), "a semicolon (split the sentence)"),
-    (re.compile(r"\w\(s\)"), "an (s) plural"),
-    (re.compile(r"\.\.\.|\u2026\s*$"), "a trailing ellipsis"),
-    (re.compile(r"[\U0001F300-\U0001FAFF\u2700-\u27BF\u2B00-\u2BFF\u2190-\u21FF\u2600-\u26FF]"),
-     "an emoji or dingbat (we have critters, LEDs and hexagons)"),
-    (re.compile(r"\b(?:Note|Remember|Pro tip|Important|Warning|Tip|Reminder|Disclaimer)\s*:",
-                re.I), "a colon-dash label (the note box and LEDs already do that job)"),
-]
-BANNED_WORDS = [
-    "simply", "seamless", "seamlessly", "effortless", "effortlessly", "robust",
-    "leverage", "utilize", "ensure", "ensuring", "delve", "foster", "elevate",
-    "unlock", "streamline", "crucial", "vital", "essential", "best practices",
-    "journey", "game-changer", "at the end of the day", "kindly",
-]
-WORD_RE = {w: re.compile(r"\b%s\b" % re.escape(w), re.I) for w in BANNED_WORDS}
 TAGS = re.compile(r"(?:<!--.*?-->|<(?:script|style)\b.*?</(?:script|style)>|<[^>]+>)", re.S | re.I)
 
 REF = re.compile(r'(?:src|href)="([^"]+)"')
@@ -53,10 +36,7 @@ FAMILY = re.compile(r'<main[^>]*\bdata-family="([^"]*)"')
 TITLE = re.compile(r"<title>(.*?)</title>", re.S)
 
 problems = []
-
-
-def plural(n, word):
-    return "%d %s" % (n, word if n == 1 else word + "s")
+plural = hs.plural
 
 
 def fail(path, msg):
@@ -74,8 +54,7 @@ def sign_files():
 
 def visible_text(html):
     """The words a reader actually sees, with markup and comments removed."""
-    text = html_mod.unescape(TAGS.sub(" ", html))
-    return re.sub(r"[^\S\n]+", " ", text)
+    return html_mod.unescape(TAGS.sub(hs.blank, html))
 
 
 def lint(path, readme):
@@ -118,13 +97,11 @@ def lint(path, readme):
         fail(path, "raw hex colour %s, use a var(--hs-*) token (DESIGN.md §3)" % hexcode)
 
     # Sign copy has to read like a member wrote it (DESIGN.md 8.1).
-    text = visible_text(html)
-    for pattern, what in TELLS:
-        if pattern.search(text):
-            fail(path, "copy contains %s" % what)
-    for word, pattern in WORD_RE.items():
-        if pattern.search(text):
-            fail(path, "copy uses %r, a word we do not print (DESIGN.md 8.1)" % word)
+    seen = set()
+    for lineno, complaint in hs.findings(visible_text(html), hs.SIGN_RULES):
+        if complaint not in seen:
+            seen.add(complaint)
+            fail(path, "line %d, copy contains %s" % (lineno, complaint))
 
     # Every local asset resolves.
     for ref in sorted(set(REF.findall(html))):

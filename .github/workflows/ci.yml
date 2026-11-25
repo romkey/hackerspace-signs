@@ -23,6 +23,9 @@ jobs:
       - name: Lint sign structure (DESIGN.md rules)
         run: python3 tools/lint_signs.py
 
+      - name: Lint the repo's own prose (DESIGN.md 8.1)
+        run: python3 tools/lint_docs.py
+
       - name: Brand SVGs match tools/build_brand.py
         run: |
           python3 tools/build_brand.py
