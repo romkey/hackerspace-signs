@@ -100,7 +100,8 @@ with your own before you print someone else's cat.
 | Bin label: mixed recycling (blue bin) | green | [`signs/bins/recycling.pdf`](signs/bins/recycling.pdf) |
 | Bin label: compost (green bin) | green | [`signs/bins/compost.pdf`](signs/bins/compost.pdf) |
 | Bin label: glass (yellow bin) | green | [`signs/bins/glass.pdf`](signs/bins/glass.pdf) |
-| All four bin labels, one per page | green | [`signs/bins/all-bins.pdf`](signs/bins/all-bins.pdf) (rebuild with `python3 signs/bins/build_bins.py`) |
+| Bin label: yard debris (green bin) | green | [`signs/bins/yard-debris.pdf`](signs/bins/yard-debris.pdf) |
+| All five bin labels, one per page | green | [`signs/bins/all-bins.pdf`](signs/bins/all-bins.pdf) (rebuild with `python3 signs/bins/build_bins.py`) |
 
 ### Bin labels
 
@@ -118,6 +119,14 @@ reprinting:
 - [Containers in the right-of-way](https://www.portland.gov/bps/garbage-recycling/business-garbage-policies/containers-right-way): set-out and retrieval times
 - [ENN-2.06 commercial collection rules](https://www.portland.gov/policies/environment-natural/solid-waste-recycling/enn-206-commercial-collection-customers-solid) (amended effective 1 Jan 2026): the binding rule. "a business must not have any recyclables in their garbage"
 - Questions: `wasteinfo@portlandoregon.gov`, 503-823-7202
+
+Yard debris has no business service of its own in these rules. Business compost is food
+only, so the yard debris bin is ours to empty: members take it to a yard debris recycler
+([Metro's Find a Recycler](https://www.oregonmetro.gov/tools-living/garbage-and-recycling/find-a-recycler)
+lists them). Its yes/no lists borrow the city's limits for home yard debris (branches
+under 4 in thick and 36 in long, no dirt, rocks, sod, stumps, lumber or plastic bags).
+Our yard debris bin is green, the same as the compost bin, so the two labels tell them
+apart by the kicker (COMPOST, YARD DEBRIS) and point to each other by name, not colour.
 
 Two things the signs deliberately do **not** say:
 

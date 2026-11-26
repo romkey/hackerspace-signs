@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Build the four bin labels (garbage, mixed recycling, compost, glass).
+Build the five bin labels (garbage, mixed recycling, compost, glass, yard debris).
 Edit BINS below, then:
 
     python3 signs/bins/build_bins.py
     tools/render.sh signs/bins/*.html
 
-Writes one landscape HTML per bin plus all-bins.html (all four, one per page).
+Writes one landscape HTML per bin plus all-bins.html (all of them, one per page).
 Sorting rules follow the City of Portland commercial requirements. The URLs are
 in README.md. Letter landscape, meant to be laminated and taped to the bin.
 
@@ -32,6 +32,12 @@ GARBAGE_NOTE = (
        "sawdust, packaging peanuts, pet waste. Seal oil and grease. ")
     + "Everything on the right needs a drop-off or another bin."
 )
+
+# The amber note on the last row. Most bins go out with the hauler. A bin can
+# override it with note= and note_small=.
+COLLECTION_NOTE = "Bins go out Wednesday night."
+COLLECTION_SMALL = ("Back inside by Thursday morning. "
+                    "They can&rsquo;t be left in the street.")
 
 # slug, footer sign id, kicker, bin colour token, bin chip name, title, critter,
 # bubble,
@@ -98,7 +104,7 @@ BINS = [
             "Liners: <b>BPI-certified only</b>",
         ],
         no=[
-            "Yard debris, leaves, prunings",
+            "Yard debris (its own bin)",
             "Napkins, food-soiled paper",
             "Anything &ldquo;compostable&rdquo;",
             "Cups, bowls, cutlery, trays",
@@ -127,6 +133,36 @@ BINS = [
             "Window glass, mirrors, bulbs",
         ],
         sort_note="<b>Broken glass cuts the crew who empty this bin.</b> Bag it and put it in the gray bin. Same for everything else on the right. The city requires this bin to be collected separately from the blue one.",
+    ),
+    # Business compost is food only, so yard debris can't ride along with the
+    # green bin. Limits are the city's for home yard debris (portland.gov/bps/
+    # garbage-recycling/compost), which is what yard debris recyclers expect too.
+    # Both this bin and the compost bin are green, so the kicker and the cross-
+    # references in the no-lists name them by what goes in, never by colour.
+    dict(
+        slug="yard-debris", sign_id="yard-debris-green",
+        kicker="Yard debris",
+        bin_token="--hs-green",
+        bin_name="Green bin",
+        title="Plants only.",
+        critter="sasquatch", bubble="TIMBER",
+        yes=[
+            "Leaves, grass, weeds, vines",
+            "Flowers, plants, clippings",
+            "Branches under <span class=\"mono\">4 in</span> thick",
+            "Cut to <span class=\"mono\">36 in</span> long or shorter",
+            "Pumpkins, fallen fruit",
+        ],
+        no=[
+            "Food scraps (compost bin)",
+            "Plastic bags of any kind",
+            "Dirt, rocks, sod, stumps",
+            "Lumber, pallets, sawdust",
+            "Pet waste, ashes, straw",
+        ],
+        sort_note="Business compost takes food only, so plants get their own bin. Tip it in loose. Tie long branches with twine, not wire. Wet leaves get heavy fast, so keep it liftable.",
+        note="Not collected with the others.",
+        note_small="When it&rsquo;s full, take it to a yard debris recycler. Ask on Slack who has the truck.",
     ),
 ]
 
@@ -185,8 +221,8 @@ SIGN = """<main class="sign landscape" data-family="green" style="--bin: var({bi
     <div class="row-end">
       <div class="note">
         <img src="../../brand/illustrations/led-amber.svg" alt="">
-        <span>Bins go out Wednesday night.
-          <small>Back inside by Thursday morning. They can&rsquo;t be left in the street.</small>
+        <span>{note}
+          <small>{note_small}</small>
         </span>
       </div>
       <div class="critter">
@@ -212,10 +248,12 @@ def items(rows):
 
 
 def render(bin_):
+    fields = dict(note=COLLECTION_NOTE, note_small=COLLECTION_SMALL)
+    fields.update(bin_)
     return SIGN.format(
         yes_items=items(bin_["yes"]),
         no_items=items(bin_["no"]),
-        **{k: v for k, v in bin_.items() if k not in ("yes", "no")},
+        **{k: v for k, v in fields.items() if k not in ("yes", "no")},
     )
 
 
