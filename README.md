@@ -95,6 +95,9 @@ with your own before you print someone else's cat.
 | Kitchen door, inside: PUSH | house | [`signs/kitchen-door/inside-push.pdf`](signs/kitchen-door/inside-push.pdf) |
 | Kitchen door, outside: PULL | house | [`signs/kitchen-door/outside-pull.pdf`](signs/kitchen-door/outside-pull.pdf) |
 | All door signs, one per page | house | [`signs/kitchen-door/all-door-signs.pdf`](signs/kitchen-door/all-door-signs.pdf) (rebuild with `pdfunite signs/kitchen-door/inside-push.pdf signs/kitchen-door/outside-pull.pdf signs/kitchen-door/all-door-signs.pdf`) |
+| Server room door, inside: PUSH | house | [`signs/server-room/inside-push.pdf`](signs/server-room/inside-push.pdf) |
+| Server room door, outside: PULL | house | [`signs/server-room/outside-pull.pdf`](signs/server-room/outside-pull.pdf) |
+| Server room door, both sides, one per page | house | [`signs/server-room/all-door-signs.pdf`](signs/server-room/all-door-signs.pdf) (rebuild with `pdfunite signs/server-room/inside-push.pdf signs/server-room/outside-pull.pdf signs/server-room/all-door-signs.pdf`) |
 | Table IDs (1-1 Ninja … 2-3-3 Alien), all in one PDF | wayfinding | [`signs/tables/all-tables.pdf`](signs/tables/all-tables.pdf) (one page per table; single files `table-<coord>.pdf`) |
 | Bin label: garbage (gray bin) | green | [`signs/bins/garbage.pdf`](signs/bins/garbage.pdf) |
 | Bin label: mixed recycling (blue bin) | green | [`signs/bins/recycling.pdf`](signs/bins/recycling.pdf) |
