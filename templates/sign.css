@@ -104,6 +104,8 @@ ul.led-list li img { height: 0.7in; flex: none; margin-top: -0.1in; }
 }
 .check span { flex: 1; }
 .check img { height: 0.9in; flex: none; }
+/* A must-not-skip line (training required, stop): red box, paper text. */
+.check.alert { background: var(--hs-red); border-color: var(--hs-red); color: var(--hs-paper); }
 
 /* ---- Critter slot: one per sign, never over information ----
  * Put the critter inside .row-end next to the last block of content. It takes

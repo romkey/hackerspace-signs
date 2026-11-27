@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 -12 296 294" role="img" aria-label="filament bunker with the lid up, the catch open and the tube out of its fitting">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 -12 400 294" role="img" aria-label="filament bunker with the lid up, the catch open, the tube out of its fitting and the spool outside">
   <rect x="50" y="124" width="250" height="152" fill="#FBF8F1" stroke="#16181D" stroke-width="6" stroke-linejoin="round"/>
-  <g fill="none" stroke="#A9B4B6" stroke-width="6"><circle cx="175" cy="204" r="50"/><circle cx="175" cy="204" r="36" stroke-width="3"/></g><circle cx="175" cy="204" r="14" fill="#A9B4B6"/>
+  <circle cx="362" cy="229" r="50" fill="#FBF8F1" stroke="#16181D" stroke-width="6" stroke-linejoin="round"/><circle cx="362" cy="229" r="36" fill="none" stroke="#A9B4B6" stroke-width="4"/><circle cx="362" cy="229" r="14" fill="#A9B4B6" stroke="#16181D" stroke-width="3"/>
   
-  <path d="M135 8 C59 24 6 194 34 278" fill="none" stroke="#16181D" stroke-width="18" stroke-linecap="round"/><path d="M135 8 C59 24 6 194 34 278" fill="none" stroke="#FBF8F1" stroke-width="10" stroke-linecap="round"/>
-  <g transform="rotate(16 308 110)"><g fill="#A9B4B6" stroke="#16181D" stroke-width="6" stroke-linejoin="round"><rect x="100" y="68" width="28" height="28"/><rect x="94" y="58" width="40" height="14"/><rect x="240" y="68" width="28" height="28"/><rect x="234" y="58" width="40" height="14"/></g><rect x="42" y="96" width="266" height="28" fill="#FBF8F1" stroke="#16181D" stroke-width="6" stroke-linejoin="round"/></g>
+  <path d="M101 -1 C25 15 6 194 34 278" fill="none" stroke="#16181D" stroke-width="18" stroke-linecap="round"/><path d="M101 -1 C25 15 6 194 34 278" fill="none" stroke="#FBF8F1" stroke-width="10" stroke-linecap="round"/>
+  <g transform="rotate(16 308 110)"><g fill="#A9B4B6" stroke="#16181D" stroke-width="6" stroke-linejoin="round"><rect x="64" y="68" width="28" height="28"/><rect x="58" y="58" width="40" height="14"/><rect x="161" y="68" width="28" height="28"/><rect x="155" y="58" width="40" height="14"/></g><rect x="42" y="96" width="266" height="28" fill="#FBF8F1" stroke="#16181D" stroke-width="6" stroke-linejoin="round"/></g>
   <circle cx="308" cy="110" r="6" fill="#A9B4B6" stroke="#16181D" stroke-width="3"/>
   <g transform="rotate(16 49 142)"><rect x="36" y="142" width="26" height="48" fill="#A9B4B6" stroke="#16181D" stroke-width="6" stroke-linejoin="round"/><rect x="29" y="176" width="40" height="15" fill="#16181D"/></g>
 </svg>

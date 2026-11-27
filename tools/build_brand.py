@@ -553,13 +553,15 @@ def build_icons():
 
 # ---- Equipment diagrams ------------------------------------------------------
 # A cereal-box filament bunker, drawn front-on: body, flip lid, side catch, and
-# the spool behind the translucent wall. Both push-fit fittings are in the lid,
-# so in storage the PTFE tube loops from one to the other and the filament ends
-# up back inside the box. Both states share the same geometry, so a right/wrong
+# the spool behind the translucent wall. Two push-fit fittings stand in the lid:
+# the outside one, near the catch edge, feeds filament up from the spool; the
+# middle one is only a holder and doesn't go through the lid. In storage the
+# PTFE tube loops from the outside fitting to the middle one, so the filament
+# end stays inside the tube. Both states share the same geometry, so a right/wrong
 # pair on a sign differs only where it is making its point: shut and looped, or
-# lid up with the catch open and the tube out of its fitting. While printing,
-# the tube runs from the left fitting to a generic printer drawn beside the box,
-# and the right fitting is only a holder (it doesn't go through the lid).
+# lid up with the catch open, the tube out of its fitting and the spool left
+# outside. While printing, the tube runs from the outside fitting to a generic
+# printer drawn beside the box, and the middle fitting stands empty.
 import math as _math
 
 BK = dict(
@@ -567,7 +569,7 @@ BK = dict(
     lid=(42, 96, 266, 28),         # closed lid, sitting on the rim
     hinge=(308, 110),              # lid pivot, at the back right
     spool=(175, 204, 50),          # cx, cy, r
-    ports=(100, 240),              # left edge of each lid fitting
+    ports=(64, 161),               # left edge of the outside and middle fittings
     tilt=16,                       # how far the lid tips in the open state
 )
 PORT_W, PORT_H = 28, 28            # fitting body on top of the lid
@@ -611,6 +613,12 @@ def bunker_svg(stored=True, printing=False):
              f'<circle cx="{sx}" cy="{sy}" r="{sr}"/>'
              f'<circle cx="{sx}" cy="{sy}" r="{sr - 14}" stroke-width="3"/></g>'
              f'<circle cx="{sx}" cy="{sy}" r="14" fill="{STEEL}"/>')
+    if not stored:
+        # The spool has been taken out and left on the bench beside the box.
+        ox, oy = bx + bw + 62, by + bh + 3 - sr
+        spool = (f'<circle cx="{ox}" cy="{oy}" r="{sr}" fill="{PAPER}" {wall}/>'
+                 f'<circle cx="{ox}" cy="{oy}" r="{sr - 14}" fill="none" stroke="{STEEL}" stroke-width="4"/>'
+                 f'<circle cx="{ox}" cy="{oy}" r="14" fill="{STEEL}" stroke="{INK}" stroke-width="3"/>')
 
     def tube(d):
         return (f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="18" stroke-linecap="round"/>'
@@ -644,22 +652,21 @@ def bunker_svg(stored=True, printing=False):
     if stored and not printing:
         # The tube loops from one lid fitting to the other, both ends home.
         hose = tube(f"M{ax} {top} C{ax} {top - 70} {bx2} {top - 70} {bx2} {top}")
-        # Filament: up from the spool into one fitting, and its end parked below the other.
-        strand = (filament(f"M{sx - 36} {sy - 35} C{sx - 47} {sy - 52} {ax - 2} {ly + 42} {ax} {ly + 24}")
-                  + filament(f"M{bx2} {ly + 24} C{bx2 + 12} {ly + 64} {bx2 - 12} {ly + 80} {bx2 - 2} {ly + 108}")
-                  + f'<circle cx="{bx2 - 2}" cy="{ly + 110}" r="6" fill="{INK}"/>')
+        # Filament: up from the spool into the outside fitting. Its end waits in the tube.
+        strand = feed
     elif not printing:
-        # Lid up, and the tube pulled out of the far fitting and left hanging.
+        # Lid up, the tube pulled out of the outside fitting and left hanging.
         hx0, hy0 = _rot(ax, top, tilt, hx, hy)
         hose = tube(f"M{hx0:.0f} {hy0:.0f} C{hx0 - 76:.0f} {hy0 + 16:.0f} "
                     f"{bx - 44} {by + 70} {bx - 16} {by + bh + 2}")
         strand = ""
+        view = "24 -12 400 294"
 
-    label = ("filament bunker shut, catch clipped, PTFE tube running from its left lid fitting into a 3D printer"
+    label = ("filament bunker shut, catch clipped, PTFE tube running from its outside lid fitting into a 3D printer"
              if printing else
-             "filament bunker shut, catch clipped, PTFE tube looped from one lid fitting to the other"
+             "filament bunker shut, catch clipped, PTFE tube looped from the outside lid fitting to the middle one"
              if stored else
-             "filament bunker with the lid up, the catch open and the tube out of its fitting")
+             "filament bunker with the lid up, the catch open, the tube out of its fitting and the spool outside")
     return f"""
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="{view}" role="img" aria-label="{label}">
   <rect x="{bx}" y="{by}" width="{bw}" height="{bh}" fill="{PAPER}" {wall}/>
