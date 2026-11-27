@@ -268,3 +268,12 @@ ul.led-list li img { height: 0.7in; flex: none; margin-top: -0.1in; }
 .sign.diagram ul.hex-list li { margin-bottom: 0.06in; }
 .sign.diagram .check { margin-top: 0.2in; font-size: 26pt; }
 .sign.diagram .check img { height: 0.6in; }
+
+/* A landscape .compare sign (three panels across): 2.5in less height, so the
+ * pictures shrink, the list runs in two columns and the confirm box slims down. */
+.sign.landscape.diagram .cmp-art { height: 1.5in; }
+.sign.landscape.diagram ul.hex-list { columns: 2; column-gap: 0.4in; margin-top: 0.14in; }
+.sign.landscape.diagram ul.hex-list li { break-inside: avoid; font-size: 19pt; padding-left: 0.42in; margin-bottom: 0.04in; }
+.sign.landscape.diagram ul.hex-list li::before { width: 0.24in; height: 0.277in; top: 0.16em; }
+.sign.landscape.diagram .check { margin-top: 0.08in; padding: 0.08in 0.25in; font-size: 22pt; }
+.sign.landscape.diagram .check img { height: 0.45in; }

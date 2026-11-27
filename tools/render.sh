@@ -10,9 +10,9 @@ for f in "$@"; do
   base="${abs%.html}"
   "$CHROME" --headless=new --disable-gpu --no-pdf-header-footer --virtual-time-budget="$BUDGET" \
     --print-to-pdf="$base.pdf" "file://$abs" 2>/dev/null
-  # Letter at 96px/in. Landscape signs (class="sign landscape") get 11x8.5.
+  # Letter at 96px/in. Landscape signs ("landscape" in the sign's class list) get 11x8.5.
   size=816,1056
-  grep -q 'class="sign landscape"' "$abs" && size=1056,816
+  grep -Eq 'class="sign( [a-z]+)* landscape|class="sign landscape' "$abs" && size=1056,816
   "$CHROME" --headless=new --disable-gpu --hide-scrollbars --virtual-time-budget="$BUDGET" \
     --window-size="$size" --default-background-color=00000000 \
     --screenshot="$base.png" "file://$abs" 2>/dev/null

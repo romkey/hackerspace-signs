@@ -156,7 +156,9 @@ should look and the way it should not. Each panel heads its picture with an LED 
 RIGHT or WRONG, so the colour never signals alone, and carries a one-line caption under it.
 The written list still does the teaching: the pair is there for the two-second read. A sign
 built around one adds `class="sign diagram"`, which pulls the title down to 40 pt and tightens
-the list and the confirm box to leave the pictures room on letter portrait.
+the list and the confirm box to leave the pictures room on letter portrait. Three panels across
+(two RIGHT states and one WRONG) go on `class="sign landscape diagram"`, which shortens the
+pictures, runs the list in two columns and slims the confirm box so it all fits 11 x 8.5.
 
 On a label stuck to a physical thing that already has a colour (a bin), the header's
 `.accent-hex` is replaced by a `.bin-badge`: a hexagon in *that object's* colour next to its

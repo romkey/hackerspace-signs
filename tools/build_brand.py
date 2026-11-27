@@ -557,7 +557,9 @@ def build_icons():
 # so in storage the PTFE tube loops from one to the other and the filament ends
 # up back inside the box. Both states share the same geometry, so a right/wrong
 # pair on a sign differs only where it is making its point: shut and looped, or
-# lid up with the catch open and the tube out of its fitting.
+# lid up with the catch open and the tube out of its fitting. While printing,
+# the tube runs from the left fitting to a generic printer drawn beside the box,
+# and the right fitting is only a holder (it doesn't go through the lid).
 import math as _math
 
 BK = dict(
@@ -577,7 +579,7 @@ def _rot(x, y, deg, cx, cy):
             cy + (x - cx) * _math.sin(a) + (y - cy) * _math.cos(a))
 
 
-def bunker_svg(stored=True):
+def bunker_svg(stored=True, printing=False):
     bx, by, bw, bh = BK["body"]
     lx, ly, lw, lh = BK["lid"]
     hx, hy = BK["hinge"]
@@ -619,38 +621,61 @@ def bunker_svg(stored=True):
 
     ax, bx2 = pa + PORT_W / 2, pb + PORT_W / 2      # centre line of each fitting
     top = mouth_y + 2
-    if stored:
+    printer = ""
+    view = "24 -12 296 294"
+    feed = filament(f"M{sx - 36} {sy - 35} C{sx - 47} {sy - 52} {ax - 2} {ly + 42} {ax} {ly + 24}")
+    if printing:
+        # A generic printer: frame, gantry with the toolhead, bed. Floor shared with the bunker.
+        fx, fy, fw, fh = 360, 40, 200, by + bh - 40
+        px = fx + 50                                  # fitting on the printer's top
+        printer = (f'<rect x="{fx}" y="{fy}" width="{fw}" height="{fh}" fill="{PAPER}" {wall}/>'
+                   f'<rect x="{fx + 22}" y="{fy + 22}" width="{fw - 44}" height="{fh - 44}" fill="none" '
+                   f'stroke="{STEEL}" stroke-width="4"/>'
+                   f'<rect x="{fx + 22}" y="{fy + 70}" width="{fw - 44}" height="12" fill="{STEEL}" {wall}/>'
+                   f'<rect x="{fx + 74}" y="{fy + 58}" width="46" height="56" fill="{STEEL}" {wall}/>'
+                   f'<rect x="{fx + 91}" y="{fy + 114}" width="12" height="14" fill="{INK}"/>'
+                   f'<rect x="{fx + 40}" y="{fy + fh - 58}" width="{fw - 80}" height="14" fill="{STEEL}" {wall}/>'
+                   f'<g fill="{STEEL}" {wall}><rect x="{px - PORT_W / 2}" y="{fy - PORT_H}" width="{PORT_W}" height="{PORT_H}"/>'
+                   f'<rect x="{px - PORT_W / 2 - 6}" y="{fy - PORT_H - 10}" width="{PORT_W + 12}" height="14"/></g>')
+        ptop = fy - PORT_H - 8
+        hose = tube(f"M{ax} {top} C{ax} {top - 90} {px} {ptop - 90} {px} {ptop}")
+        strand = feed
+        view = "24 -40 556 322"
+    if stored and not printing:
         # The tube loops from one lid fitting to the other, both ends home.
         hose = tube(f"M{ax} {top} C{ax} {top - 70} {bx2} {top - 70} {bx2} {top}")
         # Filament: up from the spool into one fitting, and its end parked below the other.
         strand = (filament(f"M{sx - 36} {sy - 35} C{sx - 47} {sy - 52} {ax - 2} {ly + 42} {ax} {ly + 24}")
                   + filament(f"M{bx2} {ly + 24} C{bx2 + 12} {ly + 64} {bx2 - 12} {ly + 80} {bx2 - 2} {ly + 108}")
                   + f'<circle cx="{bx2 - 2}" cy="{ly + 110}" r="6" fill="{INK}"/>')
-    else:
+    elif not printing:
         # Lid up, and the tube pulled out of the far fitting and left hanging.
         hx0, hy0 = _rot(ax, top, tilt, hx, hy)
         hose = tube(f"M{hx0:.0f} {hy0:.0f} C{hx0 - 76:.0f} {hy0 + 16:.0f} "
                     f"{bx - 44} {by + 70} {bx - 16} {by + bh + 2}")
         strand = ""
 
-    label = ("filament bunker shut, catch clipped, PTFE tube looped from one lid fitting to the other"
+    label = ("filament bunker shut, catch clipped, PTFE tube running from its left lid fitting into a 3D printer"
+             if printing else
+             "filament bunker shut, catch clipped, PTFE tube looped from one lid fitting to the other"
              if stored else
              "filament bunker with the lid up, the catch open and the tube out of its fitting")
     return f"""
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 -12 296 294" role="img" aria-label="{label}">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="{view}" role="img" aria-label="{label}">
   <rect x="{bx}" y="{by}" width="{bw}" height="{bh}" fill="{PAPER}" {wall}/>
   {spool}
   {strand}
   {hose}
   {lid}
   <circle cx="{hx}" cy="{hy}" r="6" fill="{STEEL}" stroke="{INK}" stroke-width="3"/>
-  {latch}
+  {latch}{printer}
 </svg>"""
 
 
 def build_diagrams():
     write("brand/illustrations/bunker-latched.svg", bunker_svg(stored=True))
     write("brand/illustrations/bunker-open.svg", bunker_svg(stored=False))
+    write("brand/illustrations/bunker-printing.svg", bunker_svg(printing=True))
 
 
 # ---- Patterns ----------------------------------------------------------------
