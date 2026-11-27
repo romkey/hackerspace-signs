@@ -105,6 +105,7 @@ with your own before you print someone else's cat.
 | Bin label: glass (yellow bin) | green | [`signs/bins/glass.pdf`](signs/bins/glass.pdf) |
 | Bin label: yard debris (green bin) | green | [`signs/bins/yard-debris.pdf`](signs/bins/yard-debris.pdf) |
 | All five bin labels, one per page | green | [`signs/bins/all-bins.pdf`](signs/bins/all-bins.pdf) (rebuild with `python3 signs/bins/build_bins.py`) |
+| 3D printer build plates: edges only, how to clean (Prusa MK4S satin, Bambu P2S textured PEI) | tools | [`signs/printers/build-plates.pdf`](signs/printers/build-plates.pdf) |
 | Filament bunker storage (right / wrong) | tools | [`signs/filament/bunker-storage.pdf`](signs/filament/bunker-storage.pdf) |
 
 ### Bin labels
