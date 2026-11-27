@@ -31,7 +31,8 @@ HEX = re.compile(r"#[0-9A-Fa-f]{3}(?:[0-9A-Fa-f]{3})?\b")
 TAGS = re.compile(r"(?:<!--.*?-->|<(?:script|style)\b.*?</(?:script|style)>|<[^>]+>)", re.S | re.I)
 
 REF = re.compile(r'(?:src|href)="([^"]+)"')
-MAIN = re.compile(r'<main[^>]*class="sign(?:\s+landscape)?"[^>]*>')
+# A sign is "sign" plus any of the documented variants (landscape, diagram).
+MAIN = re.compile(r'<main[^>]*class="sign(?:\s+(?:landscape|diagram))*"[^>]*>')
 FAMILY = re.compile(r'<main[^>]*\bdata-family="([^"]*)"')
 TITLE = re.compile(r"<title>(.*?)</title>", re.S)
 

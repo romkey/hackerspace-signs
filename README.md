@@ -102,6 +102,7 @@ with your own before you print someone else's cat.
 | Bin label: glass (yellow bin) | green | [`signs/bins/glass.pdf`](signs/bins/glass.pdf) |
 | Bin label: yard debris (green bin) | green | [`signs/bins/yard-debris.pdf`](signs/bins/yard-debris.pdf) |
 | All five bin labels, one per page | green | [`signs/bins/all-bins.pdf`](signs/bins/all-bins.pdf) (rebuild with `python3 signs/bins/build_bins.py`) |
+| Filament bunker storage (right / wrong) | tools | [`signs/filament/bunker-storage.pdf`](signs/filament/bunker-storage.pdf) |
 
 ### Bin labels
 
@@ -138,3 +139,11 @@ Two things the signs deliberately do **not** say:
   (broken glass and ceramics, shredded paper, ashes, sawdust, packaging peanuts, pet waste,
   and sealed cooking oil/grease); ENN-2.06 contains no blanket rule. If our hauler's contract
   requires everything bagged, set `BAG_EVERYTHING = True` in `build_bins.py` and rebuild.
+
+### Filament bunkers
+
+Letter **portrait**, taped to each MARS cereal-box bunker. The sign is a right / wrong pair
+(`.compare` in [`templates/sign.css`](templates/sign.css)) over the written checklist, drawn in the
+**storage configuration**: both ends of the PTFE tube in the lid fittings, so the filament end sits
+back inside the sealed box. The two drawings come from [`tools/build_brand.py`](tools/build_brand.py)
+(`bunker-latched.svg`, `bunker-open.svg`), so change the script, not the SVGs.

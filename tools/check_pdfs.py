@@ -15,7 +15,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MAIN = re.compile(r'<main[^>]*class="sign(\s+landscape)?"[^>]*>')
+MAIN = re.compile(r'<main[^>]*class="sign((?:\s+\w+)*)"[^>]*>')
 LETTER = (612.0, 792.0)   # points, portrait
 TOL = 2.0                 # Chrome rounds; 2pt is well under a visible error
 
@@ -53,7 +53,7 @@ def check(path):
         return
     with open(path, encoding="utf-8") as fh:
         mains = MAIN.findall(fh.read())
-    want_landscape = [bool(m) for m in mains]
+    want_landscape = ["landscape" in m.split() for m in mains]
     if not mains:
         fail(rel, 'no <main class="sign"> to check against')
         return

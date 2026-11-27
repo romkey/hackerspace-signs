@@ -551,6 +551,108 @@ def build_icons():
           resistor_svg([RAINBOW["red"], RAINBOW["orange"], RAINBOW["yellow"], RAINBOW["green"], RAINBOW["blue"]]))
 
 
+# ---- Equipment diagrams ------------------------------------------------------
+# A cereal-box filament bunker, drawn front-on: body, flip lid, side catch, and
+# the spool behind the translucent wall. Both push-fit fittings are in the lid,
+# so in storage the PTFE tube loops from one to the other and the filament ends
+# up back inside the box. Both states share the same geometry, so a right/wrong
+# pair on a sign differs only where it is making its point: shut and looped, or
+# lid up with the catch open and the tube out of its fitting.
+import math as _math
+
+BK = dict(
+    body=(50, 124, 250, 152),      # x, y, w, h
+    lid=(42, 96, 266, 28),         # closed lid, sitting on the rim
+    hinge=(308, 110),              # lid pivot, at the back right
+    spool=(175, 204, 50),          # cx, cy, r
+    ports=(100, 240),              # left edge of each lid fitting
+    tilt=16,                       # how far the lid tips in the open state
+)
+PORT_W, PORT_H = 28, 28            # fitting body on top of the lid
+
+
+def _rot(x, y, deg, cx, cy):
+    a = _math.radians(deg)
+    return (cx + (x - cx) * _math.cos(a) - (y - cy) * _math.sin(a),
+            cy + (x - cx) * _math.sin(a) + (y - cy) * _math.cos(a))
+
+
+def bunker_svg(stored=True):
+    bx, by, bw, bh = BK["body"]
+    lx, ly, lw, lh = BK["lid"]
+    hx, hy = BK["hinge"]
+    sx, sy, sr = BK["spool"]
+    pa, pb = BK["ports"]
+    tilt = 0 if stored else BK["tilt"]
+    wall = f'stroke="{INK}" stroke-width="6" stroke-linejoin="round"'
+    mouth_y = ly - PORT_H - 10          # top of a fitting collar
+
+    def port(x):
+        """A push-fit fitting standing in the lid, mouth up."""
+        return (f'<rect x="{x}" y="{ly - PORT_H}" width="{PORT_W}" height="{PORT_H}"/>'
+                f'<rect x="{x - 6}" y="{mouth_y}" width="{PORT_W + 12}" height="14"/>')
+
+    lid_t = "" if stored else f' transform="rotate({tilt} {hx} {hy})"'
+    lid = (f'<g{lid_t}><g fill="{STEEL}" {wall}>{port(pa)}{port(pb)}</g>'
+           f'<rect x="{lx}" y="{ly}" width="{lw}" height="{lh}" fill="{PAPER}" {wall}/></g>')
+
+    # Side catch: clipped over the lid joint, or swung open below it.
+    cx0 = bx - 14
+    def catch(top, hook_at_top):
+        hook_y = top - 4 if hook_at_top else top + 34
+        return (f'<rect x="{cx0}" y="{top}" width="26" height="48" fill="{STEEL}" {wall}/>'
+                f'<rect x="{cx0 - 7}" y="{hook_y}" width="40" height="15" fill="{INK}"/>')
+    latch = (catch(ly + 10, True) if stored
+             else f'<g transform="rotate(16 {cx0 + 13} {by + 18})">{catch(by + 18, False)}</g>')
+
+    spool = (f'<g fill="none" stroke="{STEEL}" stroke-width="6">'
+             f'<circle cx="{sx}" cy="{sy}" r="{sr}"/>'
+             f'<circle cx="{sx}" cy="{sy}" r="{sr - 14}" stroke-width="3"/></g>'
+             f'<circle cx="{sx}" cy="{sy}" r="14" fill="{STEEL}"/>')
+
+    def tube(d):
+        return (f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="18" stroke-linecap="round"/>'
+                f'<path d="{d}" fill="none" stroke="{PAPER}" stroke-width="10" stroke-linecap="round"/>')
+
+    def filament(d):
+        return f'<path d="{d}" fill="none" stroke="{INK}" stroke-width="7" stroke-linecap="round"/>'
+
+    ax, bx2 = pa + PORT_W / 2, pb + PORT_W / 2      # centre line of each fitting
+    top = mouth_y + 2
+    if stored:
+        # The tube loops from one lid fitting to the other, both ends home.
+        hose = tube(f"M{ax} {top} C{ax} {top - 70} {bx2} {top - 70} {bx2} {top}")
+        # Filament: up from the spool into one fitting, and its end parked below the other.
+        strand = (filament(f"M{sx - 36} {sy - 35} C{sx - 47} {sy - 52} {ax - 2} {ly + 42} {ax} {ly + 24}")
+                  + filament(f"M{bx2} {ly + 24} C{bx2 + 12} {ly + 64} {bx2 - 12} {ly + 80} {bx2 - 2} {ly + 108}")
+                  + f'<circle cx="{bx2 - 2}" cy="{ly + 110}" r="6" fill="{INK}"/>')
+    else:
+        # Lid up, and the tube pulled out of the far fitting and left hanging.
+        hx0, hy0 = _rot(ax, top, tilt, hx, hy)
+        hose = tube(f"M{hx0:.0f} {hy0:.0f} C{hx0 - 76:.0f} {hy0 + 16:.0f} "
+                    f"{bx - 44} {by + 70} {bx - 16} {by + bh + 2}")
+        strand = ""
+
+    label = ("filament bunker shut, catch clipped, PTFE tube looped from one lid fitting to the other"
+             if stored else
+             "filament bunker with the lid up, the catch open and the tube out of its fitting")
+    return f"""
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 -12 296 294" role="img" aria-label="{label}">
+  <rect x="{bx}" y="{by}" width="{bw}" height="{bh}" fill="{PAPER}" {wall}/>
+  {spool}
+  {strand}
+  {hose}
+  {lid}
+  <circle cx="{hx}" cy="{hy}" r="6" fill="{STEEL}" stroke="{INK}" stroke-width="3"/>
+  {latch}
+</svg>"""
+
+
+def build_diagrams():
+    write("brand/illustrations/bunker-latched.svg", bunker_svg(stored=True))
+    write("brand/illustrations/bunker-open.svg", bunker_svg(stored=False))
+
+
 # ---- Patterns ----------------------------------------------------------------
 def build_patterns():
     # Seamless pointy-top honeycomb outline tile
@@ -581,4 +683,5 @@ if __name__ == "__main__":
     build_logo()
     build_sprites()
     build_icons()
+    build_diagrams()
     build_patterns()

@@ -233,3 +233,38 @@ ul.led-list li img { height: 0.7in; flex: none; margin-top: -0.1in; }
 }
 .sign.landscape .critter img { height: 1in; }
 .sign.landscape .bubble { font-size: 13pt; padding: 0.06in 0.1in; }
+
+/* ---- Right / wrong pair (.compare): the same picture twice, as it should
+ * look and as it should not. Each panel pairs its drawing with an LED and the
+ * word RIGHT or WRONG, so the colour never signals alone (DESIGN.md §3, §6). */
+.compare { display: flex; gap: 0.25in; margin: 0 0 0.1in; }
+.compare figure {
+  flex: 1; min-width: 0; margin: 0;
+  border: 0.05in solid var(--hs-ink);
+  display: flex; flex-direction: column;
+}
+.cmp-head {
+  display: flex; align-items: center; gap: 0.14in;
+  padding: 0.08in 0.16in;
+  font-family: var(--hs-font-display); font-weight: 700; font-size: 26pt;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  border-bottom: 0.07in solid var(--hs-steel);
+}
+.cmp-head img { height: 0.46in; flex: none; }
+.compare .yes .cmp-head { border-bottom-color: var(--hs-ok); }
+.compare .no .cmp-head { border-bottom-color: var(--hs-no); }
+.cmp-art { display: block; width: 100%; height: 2.15in; object-fit: contain; padding: 0.1in 0.12in 0; }
+.compare figcaption {
+  font-size: 15pt; line-height: 1.18; color: var(--hs-muted);
+  padding: 0.1in 0.16in 0.14in;
+}
+
+/* A sign built around a .compare pair: the pictures carry the message, so the
+ * type tightens to leave them room on letter portrait. */
+.sign.diagram .sign-body { padding-top: 0.25in; }
+.sign.diagram .title { font-size: 40pt; margin-bottom: 0.08in; }
+.sign.diagram .accent-rule { margin: 0.12in 0; }
+.sign.diagram ul.hex-list { margin-top: 0.12in; }
+.sign.diagram ul.hex-list li { margin-bottom: 0.06in; }
+.sign.diagram .check { margin-top: 0.2in; font-size: 26pt; }
+.sign.diagram .check img { height: 0.6in; }
