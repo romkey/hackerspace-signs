@@ -151,7 +151,7 @@ under both, and a `.note` box plus the critter on the last row. Landscape loses 
 height, so `.sign.landscape` tightens the header, trail and footer; keep bullets to one line
 each and at most five per column or the footer falls off the page.
 
-**Right / wrong pairs** (`.compare`, `signs/filament`) show one drawing twice, the way it
+**Right / wrong pairs** (`.compare`, `signs/printers/bunker-storage.html`) show one drawing twice, the way it
 should look and the way it should not. Each panel heads its picture with an LED and the word
 RIGHT or WRONG, so the colour never signals alone, and carries a one-line caption under it.
 The written list still does the teaching: the pair is there for the two-second read. A sign
