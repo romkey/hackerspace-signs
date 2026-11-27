@@ -159,7 +159,10 @@ built around one adds `class="sign diagram"`, which pulls the title down to 40 p
 the list and the confirm box to leave the pictures room on letter portrait. Three panels across
 (two RIGHT states and one WRONG) go on `class="sign landscape diagram"`, which shortens the
 pictures, runs the list in two columns and slims the confirm box so it all fits 11 x 8.5. A confirm box that must not be skipped (training
-required) takes `.check.alert`: red fill, paper text, red LED.
+required) takes `.check.alert`: red fill, paper text, red LED. A QR code to the wiki goes at the end of the
+title line: wrap the title and its accent rule in `.head-row` and add an `<img class="qr">`
+beside them. Make the SVG with `tools/make_qr.py <url> <out.svg>` (needs segno), keep it
+next to the sign, and scan the rendered PNG before calling the sign done.
 
 On a label stuck to a physical thing that already has a colour (a bin), the header's
 `.accent-hex` is replaced by a `.bin-badge`: a hexagon in *that object's* colour next to its

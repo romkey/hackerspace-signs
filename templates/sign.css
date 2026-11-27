@@ -279,3 +279,9 @@ ul.led-list li img { height: 0.7in; flex: none; margin-top: -0.1in; }
 .sign.landscape.diagram ul.hex-list li::before { width: 0.24in; height: 0.277in; top: 0.16em; }
 .sign.landscape.diagram .check { margin-top: 0.08in; padding: 0.08in 0.25in; font-size: 22pt; }
 .sign.landscape.diagram .check img { height: 0.45in; }
+
+/* Title with a QR code to the wiki at the end of the line. The QR spans the
+ * title and its accent rule, so it adds no height. Keep it at least 0.8in. */
+.head-row { display: flex; align-items: center; gap: 0.3in; }
+.head-row > :first-child { flex: 1; min-width: 0; }
+.qr { width: 1in; height: 1in; flex: none; }
